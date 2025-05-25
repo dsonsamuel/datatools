@@ -3,11 +3,19 @@ import streamlit as st
 import base64
 from PIL import Image
 from io import BytesIO
-from dotenv import load_dotenv
+
 from lida import Manager, TextGenerationConfig, llm
 import openai
+import streamlit_authenticator as stauth
 
-load_dotenv()
+
+if not st.experimental_user.is_logged_in:
+    if st.button("Log in"):
+        st.login()
+else:
+    if st.button("Log out"):
+        st.logout()
+    st.write(f"Hello, {st.experimental_user.name}!")
 
 # Configure OpenAI API key securely
 openai.api_key = os.getenv("OPENAI_API_KEY")
